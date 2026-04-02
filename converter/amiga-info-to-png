@@ -1,0 +1,31 @@
+#!/bin/bash
+# Convert Amiga .info icon files to PNG
+# Tries GlowIcon/NewIcon converter (Node.js) first, falls back to infotopam (netpbm)
+# Usage: amiga-info-to-png INPUT OUTPUT
+
+INPUT="$1"
+OUTPUT="$2"
+
+if [ -z "$INPUT" ] || [ -z "$OUTPUT" ]; then
+    echo "Usage: amiga-info-to-png INPUT.info OUTPUT.png" >&2
+    exit 1
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+NODE_CONVERTER="$SCRIPT_DIR/node/convert-single.js"
+
+# Try GlowIcon/NewIcon converter first (handles all formats)
+if node "$NODE_CONVERTER" "$INPUT" "$OUTPUT" 2>/dev/null && [ -s "$OUTPUT" ]; then
+    exit 0
+fi
+
+# Fallback to infotopam for classic OS1/OS2 icons
+if command -v infotopam &>/dev/null && command -v pamtopng &>/dev/null; then
+    infotopam "$INPUT" 2>/dev/null | pamtopng 2>/dev/null > "$OUTPUT"
+    if [ -s "$OUTPUT" ]; then
+        exit 0
+    fi
+fi
+
+rm -f "$OUTPUT"
+exit 1

@@ -1,0 +1,8 @@
+{
+    "name": "amiga-info-converter",
+    "version": "1.0.0",
+    "description": "Convert Amiga .info icon files to PNG",
+    "dependencies": {
+        "pngjs": "^7.0.0"
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "CacheThumbnail": true,
+    "KPlugin": {
+        "MimeTypes": [
+            "application/x-amiga-info"
+        ],
+        "Name": "Amiga Workbench Icons"
+    }
+}
